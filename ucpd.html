@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+   <meta charset="UTF-8">
+   <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
+   <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.5/leaflet.css" />
+   <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+   <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+   <script src="http://cdn.leafletjs.com/leaflet-0.5/leaflet.js"></script>
+   <script type="text/javascript" src="./heatmap.js/build/heatmap.min.js"></script>  
+   <script type="text/javascript" src="leaflet-heatmap.js"></script>
+   <script>
+      $(function() {
+         $( "#slider" ).slider({
+		min: 0, 
+		max: addressPoints.length-50,
+		change: function(event, ui) {
+			t = addressPoints.length - 50 - $( "#slider" ).slider( "value" );
+			latLngs = addressPoints.slice(t,t+50);
+			nHeat.setLatLngs(latLngs);
+			$('#infobox').html(timeCorrespondence[t+49] + " to " + timeCorrespondence[t]);
+		}
+	});
+      });
+   </script>
+<style>
+#map {
+  position:absolute;
+  top:0;
+  bottom:0;
+  right:0;
+  left:0;
+}
+
+</style>
+</head>
+<body>
+<div id="infobox" style="display: block; position: absolute; bottom: 0; right: 0; height: 100px; width: 200px; border: 1px solid black; background: #beb7f0;z-index: 1000;padding: 10px;">
+Scroll to view different time frames.
+</div>
+<div id="map" style="width: 100%; height: 100%"></div>
+<div id="slider"></div>
+
+<script src="./Leaflet.heat/dist/leaflet-heat.js"></script>
+<script src="incidents.js"></script>
+<script>
+var map = new L.Map('map', {
+   center: new L.LatLng(41.791076, -87.598311),
+   zoom: 16,
+});
+
+
+var nHeat = L.heatLayer(addressPoints.slice(0,100),{ maxZoom:16, radius: 40, blur: 30 }).addTo(map);
+
+var draw = false;
+
+var tiles = L.tileLayer(
+  'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution: 'Open Street Maps'
+  }).addTo(map);
+
+
+</script>
