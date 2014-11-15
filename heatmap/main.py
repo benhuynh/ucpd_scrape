@@ -1,13 +1,8 @@
-import numpy
-import matplotlib
 import httplib2
 from bs4 import BeautifulSoup
-import time
-import calendar
 import datetime
 from dateutil.parser import parse
 import csv
-import folium
 """
 h = httplib2.Http('.cache')
 reports = {}
